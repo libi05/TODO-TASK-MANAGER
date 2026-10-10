@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow | Student Task Manager</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a class="brand" href="#">
+        <span class="brand-icon">✓</span>
+        <span>TaskFlow<span class="brand-dot">.</span></span>
+      </a>
+
+      <p class="nav-heading">WORKSPACE</p>
+      <nav class="navigation">
+        <button class="nav-link active" data-filter="all">
+          <span>▦</span> All Tasks <span class="nav-count" id="allNavCount">0</span>
+        </button>
+        <button class="nav-link" data-filter="today">
+          <span>◷</span> Today
+        </button>
+        <button class="nav-link" data-filter="pending">
+          <span>○</span> Pending
+        </button>
+        <button class="nav-link" data-filter="completed">
+          <span>✓</span> Completed
+        </button>
+      </nav>
+
+      <p class="nav-heading category-heading">CATEGORIES</p>
+      <nav class="navigation">
+        <button class="nav-link" data-category="Study">
+          <span class="category-dot study-dot"></span> Study
+        </button>
+        <button class="nav-link" data-category="Personal">
+          <span class="category-dot personal-dot"></span> Personal
+        </button>
+        <button class="nav-link" data-category="Project">
+          <span class="category-dot project-dot"></span> Project
+        </button>
+        <button class="nav-link" data-category="Other">
+          <span class="category-dot other-dot"></span> Other
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="focus-card">
+          <span class="focus-icon">✦</span>
+          <h3>Stay focused!</h3>
+          <p>Small steps every day lead to big results.</p>
+        </div>
+        <p class="sidebar-footer">MADE FOR STUDENTS 💜</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+          <h1>My Tasks <span class="wave">✦</span></h1>
+          <p class="subtitle">Plan your day. Make it count.</p>
+        </div>
+        <div class="date-badge">
+          <span>◷</span>
+          <span id="currentDate"></span>
+        </div>
+      </header>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-top">
+            <span>Total Tasks</span>
+            <span class="stat-icon purple-icon">▦</span>
+          </div>
+          <h2 id="totalCount">0</h2>
+          <p>All your tasks in one place</p>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top">
+            <span>Pending</span>
+            <span class="stat-icon orange-icon">◷</span>
+          </div>
+          <h2 id="pendingCount">0</h2>
+          <p>Tasks waiting to be done</p>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top">
+            <span>Completed</span>
+            <span class="stat-icon green-icon">✓</span>
+          </div>
+          <h2 id="completedCount">0</h2>
+          <p>Look how far you've come!</p>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top">
+            <span>Progress</span>
+            <span class="stat-icon blue-icon">↗</span>
+          </div>
+          <h2 id="progressCount">0%</h2>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="task-form-card">
+        <div class="section-heading">
+          <div>
+            <h2>➕ Create a Task</h2>
+            <p>Add something you want to accomplish.</p>
+          </div>
+        </div>
+
+        <form id="taskForm">
+          <div class="form-field full-field">
+            <label for="taskTitle">TASK NAME *</label>
+            <input id="taskTitle" type="text" placeholder="e.g. Prepare for compiler design exam" maxlength="120" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="taskCategory">CATEGORY</label>
+              <select id="taskCategory">
+                <option value="Study">📚 Study</option>
+                <option value="Personal">🌸 Personal</option>
+                <option value="Project">💻 Project</option>
+                <option value="Other">✨ Other</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="taskPriority">PRIORITY</label>
+              <select id="taskPriority">
+                <option value="Medium">🟡 Medium</option>
+                <option value="High">🔴 High</option>
+                <option value="Low">🟢 Low</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="taskDate">DUE DATE</label>
+              <input id="taskDate" type="date">
+            </div>
+          </div>
+
+          <button class="primary-button" type="submit">＋ Add Task</button>
+          <p id="formMessage" class="form-message" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="tasks-section">
+        <div class="tasks-heading">
+          <div>
+            <h2>Your Task List</h2>
+            <p id="taskSummary">You've got this. One task at a time.</p>
+          </div>
+          <div class="task-tools">
+            <div class="search-box">
+              <span>⌕</span>
+              <input type="search" id="searchInput" placeholder="Search tasks..." aria-label="Search tasks">
+            </div>
+            <select id="priorityFilter" aria-label="Filter by priority">
+              <option value="all">All priorities</option>
+              <option value="High">High priority</option>
+              <option value="Medium">Medium priority</option>
+              <option value="Low">Low priority</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="task-list" id="taskList"></div>
+
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">✦</div>
+          <h3 id="emptyTitle">Your space is ready!</h3>
+          <p id="emptyDescription">Add your first task and start making progress.</p>
+        </div>
+      </section>
+
+      <footer class="main-footer">
+        <span>Stay consistent. Your future self will thank you. ✨</span>
+        <span>TaskFlow © <span id="footerYear"></span></span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
